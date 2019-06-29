@@ -63,12 +63,30 @@ describe('POST /games', () => {
         await db('games').truncate();
     })
 
-    it('should hit endpoint', async () => {
-        const res = await request(server).get('/games');
-        expect(res.status).toBe(200);
-        expect(res.body).toEqual([]);
+    it('returns 201 when sent correct data', () => {
+        const game = {
+                id: 1,
+                title: 'Pacman', // required
+                genre: 'Arcade', // required
+                releaseYear: 1980 // not required
+            };
+
+        const res = request(server).post('/games', game);
+
+        expect(res.status).toBe(201);
+
     });
+    it('returns 422 when sent incomplete data', () => {
+        const game = {
+            id: 1,
+            title: 'Pacman', // required
+            releaseYear: 1980 // not required
+        };
 
+        const res = request(server).post('/games', game);
 
+        expect(res.status).toBe(422);
+
+    });
 
 })
