@@ -20,4 +20,19 @@ server.get('/games', (req, res) => {
       });
 });
 
+server.post('/games', async (req, res) => {
+    const game = req.body;
+
+    if(game.title && game.genre) {
+        try {
+          const inserted = await Games.insert(game);
+          res.status(201).json(inserted);
+        } catch (err) {
+            res.status(500).json({ mess: 'Ran into error creating new game' })
+        }
+    } else {
+        res.status(422).json({ mess: 'Provide title and genre' })
+    }
+});
+
 module.exports = server;
