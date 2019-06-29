@@ -12,7 +12,7 @@ async function insert(game) {
 }
 
 
-function getAll() {
+ function getAll() {
   return db('games');
 }
 
